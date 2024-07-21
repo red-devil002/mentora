@@ -2,11 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { FormControl, FormField, FormItem, Form, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { formdescriptionSchema } from "@/helpers/FormDescriptionSchema.z";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Course } from "@prisma/client";
 import axios from "axios";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -16,9 +16,7 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 
 interface DescriptionFormProps {
-    initialData: {
-        description: string;
-    };
+    initialData: Course;
     courseId: String;
 }
 
@@ -33,7 +31,9 @@ export const DescriptionForm = ({
 
     const form = useForm<z.infer<typeof formdescriptionSchema>>({
         resolver: zodResolver(formdescriptionSchema),
-        defaultValues: initialData,
+        defaultValues: {
+            description: initialData?.description || ""
+        },
     })
 
     const {isSubmitting, isValid} = form.formState
