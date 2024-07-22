@@ -1,9 +1,10 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { Combobox } from "@/components/ui/combobox";
 import { FormControl, FormField, FormItem, Form, FormMessage } from "@/components/ui/form";
-import { formcategorySchema } from "@/helpers/FormCategorySchema.z";
+import { Input } from "@/components/ui/input";
+import { formpriceSchema } from "@/helpers/FormPriceSchema.z";
+import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Course } from "@prisma/client";
@@ -15,35 +16,33 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 
-interface CategoryFormProps {
+interface PriceFormProps {
     initialData: Course;
     courseId: String;
-    options: {
-        label: string;
-        value: string;
-    }[]
 }
 
-export const CategoryForm = ({
+export const PriceForm = ({
     initialData, 
-    courseId,
-    options,
-}: CategoryFormProps) => {
+    courseId
+}: PriceFormProps) => {
 
     const [isEditing, setIsEditing] = useState(false)
     const toggleEdit = () => setIsEditing((current) => !current)
     const router = useRouter()
 
-    const form = useForm<z.infer<typeof formcategorySchema>>({
-        resolver: zodResolver(formcategorySchema),
+    const form = useForm<z.infer<typeof formpriceSchema>>({
+        resolver: zodResolver(formpriceSchema),
         defaultValues: {
-            categoryId: initialData?.categoryId || ""
+            price : initialData?.price || undefined,
         },
     })
 
     const {isSubmitting, isValid} = form.formState
+    // console.log("Form isValid:", isValid);
+    // console.log("Form isSubmitting:", isSubmitting);
 
-    const onSubmit = async (values: z.infer<typeof formcategorySchema>) => {
+
+    const onSubmit = async (values: z.infer<typeof formpriceSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values)
             toast.success("Course updated")
@@ -54,30 +53,27 @@ export const CategoryForm = ({
         }
         
     }
-
-    const selectedOption = options.find((option) => option.value === initialData.categoryId)
-    
     return(
         <div className="mt-6 border bg-slate-100 rounded-md p-2">
             <div className="font-medium flex items-center justify-between">
-                Course category
+                Course price
                 <Button onClick={toggleEdit} variant="ghost">
                     {isEditing ? (
                         <>Cancel</>
                     ) : (
                         <>
                             <Pencil className="h-4 w-4 mr-2" />
-                            Edit category
+                            Edit price
                         </>
                     )}
                 </Button>
             </div>
             {!isEditing && (
-                <p className={cn(
+               <p className={cn(
                     "text-sm mt-2",
-                    !initialData.categoryId && "text-slate-500 italic"
+                    !initialData.price && "text-slate-500 italic"
                 )}>
-                    {selectedOption?.label || "No category"}
+                    {initialData.price ? formatPrice(initialData.price) : "No price"}
                 </p>
             )}
             {isEditing && (
@@ -88,12 +84,15 @@ export const CategoryForm = ({
                     >
                         <FormField 
                             control={form.control}
-                            name="categoryId"
+                            name="price"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Combobox
-                                            options= {options}
+                                        <Input 
+                                            disabled={isSubmitting}
+                                            type="number"
+                                            step="0.01"
+                                            placeholder="set price for your course"
                                             {...field}
                                         />
                                     </FormControl>
