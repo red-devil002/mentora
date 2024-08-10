@@ -18,10 +18,7 @@ import { z } from "zod";
 interface CategoryFormProps {
     initialData: Course;
     courseId: String;
-    options: {
-        label: string;
-        value: string;
-    }[]
+    options: { label: string; value: string; }[];
 }
 
 export const CategoryForm = ({
@@ -93,7 +90,7 @@ export const CategoryForm = ({
                                 <FormItem>
                                     <FormControl>
                                         <Combobox
-                                            options= {options}
+                                            options={...options}
                                             {...field}
                                         />
                                     </FormControl>

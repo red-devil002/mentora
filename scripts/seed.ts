@@ -15,6 +15,7 @@ async function main(){
                 { name: "Fitness"},
                 { name: "Dancing"},
                 { name: "Medical"},
+                { name: "AI and ML"},
             ]
         })
 

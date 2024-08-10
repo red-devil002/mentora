@@ -29,8 +29,7 @@ export const Combobox = ({
   options,
   value,
   onChange
-} : ComboboxProps) => {
-
+}: ComboboxProps) => {
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -51,12 +50,13 @@ export const Combobox = ({
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Search option..." />
-          <CommandEmpty>No option found.</CommandEmpty>
           <CommandList>
+            <CommandEmpty>No option found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
+                  // value={option.value}
                   onSelect={() => {
                     onChange(option.value === value ? "" : option.value)
                     setOpen(false)
