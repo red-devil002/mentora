@@ -1,3 +1,4 @@
+
 import { getChapter } from "@/actions/getChapters";
 import { Banner } from "@/components/Banner";
 import { auth } from "@clerk/nextjs/server";
@@ -90,7 +91,7 @@ const ChapterIdPage = async ({
                     <Separator />
                     <div>
                         <Preview 
-                            value={chapter.description}
+                            value={chapter.description!}
                         />
                     </div>
                     {!!attachments.length && (

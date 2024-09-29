@@ -12,6 +12,7 @@ export const NavbarRoutes = () => {
     const pathname = usePathname()
 
     const isTeacherPage = pathname?.startsWith("/teacher");
+    const isStudentPage = pathname?.startsWith("/student");
     const isCoursePage = pathname?.includes("/courses");
     const isSearchPage = pathname === "/search"
 
@@ -22,10 +23,10 @@ export const NavbarRoutes = () => {
                     <SearchInput />
                 </div>
             )}
-            <div className="flex gap-x-2 ml-auto">
+            <div className="flex ml-auto">
                 {isTeacherPage || isCoursePage ? (
                     <Link href="/">
-                        <Button size="sm"       variant="ghost">
+                        <Button size="sm" variant="ghost">
                             <LogOut className="h-4 w-4 mr-2"/>
                             Exit
                         </Button>
@@ -34,6 +35,22 @@ export const NavbarRoutes = () => {
                     <Link href="/teacher/courses">
                         <Button size="sm" variant="ghost">
                             Teacher mode
+                        </Button>
+                    </Link>
+                )}
+                </div>
+                <div className="flex gap-x-2">
+                {isStudentPage ? (
+                    <Link href="/">
+                        <Button size="sm" variant="ghost">
+                            <LogOut className="h-4 w-4 mr-2"/>
+                            Exit
+                        </Button>
+                    </Link>
+                ): (
+                    <Link href="/student">
+                        <Button size="sm" variant="ghost">
+                            Student mode
                         </Button>
                     </Link>
                 )}
