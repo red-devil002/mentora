@@ -1,7 +1,7 @@
 import { AssemblyAI } from'assemblyai';
 
 const client = new AssemblyAI({
-    apiKey: 'c1db9f2624cf4cbdae6f61f0e6ee20d6',
+    apiKey: process.env.ASSEMBLY_API_KEY!,
 });
 
 //function to generate transcript

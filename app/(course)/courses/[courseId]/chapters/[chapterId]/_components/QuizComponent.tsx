@@ -21,7 +21,9 @@ interface QuizComponentProps {
   onComplete: () => void;
 }
 
-const genAI = new GoogleGenerativeAI("AIzaSyD8JbyFInYCDszVGDEfAnNDEjCc2ZViXr8");
+const GeminiAPI = process.env.NEXT_PUBLIC_GEMINI_API_KEY
+console.log("GeminiAPI: ",GeminiAPI)
+const genAI = new GoogleGenerativeAI(GeminiAPI);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 async function generateQuiz(transcription: string) {
