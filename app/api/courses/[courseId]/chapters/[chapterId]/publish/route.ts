@@ -1,4 +1,5 @@
 import { db } from "@/lib/db_connect";
+import { transcribeVideo } from "@/lib/transcript";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -41,6 +42,22 @@ export async function PATCH(
             return new NextResponse("Missing requied field", {status: 400})
         }
 
+        const transcript = await transcribeVideo(chapter.videoUrl)
+        // console.log(transcript);
+        
+        // if(transcript) {
+        //     const createNew = await db.chapter.update({
+        //         where:{
+        //             id: params.chapterId,
+        //         },
+        //         data: {
+        //             transcript,
+        //         }
+        //     })
+
+        //     console.log("createNew: ",createNew);
+        // }        
+        
         const publishedChapter = await db.chapter.update({
             where: {
                 id: params.chapterId,
@@ -48,6 +65,7 @@ export async function PATCH(
             },
             data: {
                 isPublished: true,
+                transcript
             }
         })
 

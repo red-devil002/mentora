@@ -6,6 +6,7 @@ import { Button } from "./ui/button"
 import { LogOut } from "lucide-react"
 import Link from "next/link"
 import { SearchInput } from "./SearchInput"
+import Image from "next/image"
 
 export const NavbarRoutes = () => {
 
@@ -23,6 +24,8 @@ export const NavbarRoutes = () => {
                     <SearchInput />
                 </div>
             )}
+            <Image src={"/logo/logo.jpeg"} alt="Mentora" width={200}
+            height={100}/>
             <div className="flex ml-auto">
                 {isTeacherPage || isCoursePage ? (
                     <Link href="/">

@@ -36,9 +36,9 @@ export const VideoPlayer = ({
     const onEnd = async() => {
         try {
             if(completeOnEnd) {
-                await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
-                    isCompleted: true
-                })
+                // await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
+                //     isCompleted: true
+                // })
 
                 if(!nextChapterId) {
                     confetti.onOpen();
